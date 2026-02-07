@@ -9,7 +9,12 @@ import SwiftUI
 
 struct ContentView: View {
     var body: some View {
-        TaskCardView()
+        TaskCardView(task: Task(id: UUID(),
+                                title: "Sample Text",
+                                description: "Sample Text",
+                                taskType: "Sample",
+                                dueDate: Date(),
+                                isCompleted: false))
     }
 }
 
