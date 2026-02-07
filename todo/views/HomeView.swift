@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct HomeView: View {
+    @State private var viewAllTasks = false
+    
     var body: some View {
         NavigationStack {
             ZStack {
@@ -30,7 +32,9 @@ struct HomeView: View {
                     
                     Spacer()
                     HStack {
-                        Button(action: {}) {
+                        Button(action: {
+                            viewAllTasks = true
+                        }) {
                             Image(systemName: "eye")
                                 .foregroundColor(.white)
                                 .font(.system(size: 40))
@@ -55,6 +59,7 @@ struct HomeView: View {
                         .padding(.trailing, 20)
                     }
                 }
+            .navigationDestination(isPresented: $viewAllTasks) {ViewAllTasksView()}
             }
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
