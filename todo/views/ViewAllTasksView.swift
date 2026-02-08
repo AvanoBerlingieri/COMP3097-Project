@@ -19,7 +19,21 @@ struct ViewAllTasksView: View {
 
             VStack {
                 Spacer()
-
+                
+                HStack {
+                    ZStack(alignment: .trailing) {
+                        TextField("Search", text: $title)
+                            .foregroundColor(.white)
+                            .padding()
+                            .background(Color.gray.opacity(0.2))
+                            .cornerRadius(10)
+                        
+                        Image(systemName: "magnifyingglass")
+                            .foregroundColor(.white.opacity(0.7))
+                            .padding(.trailing, 10)
+                    }
+                }
+                
                 ForEach(tasks) { task in
                     NavigationLink(destination: ViewTaskView(task: task)) {
                         TaskCardView(task: task)
