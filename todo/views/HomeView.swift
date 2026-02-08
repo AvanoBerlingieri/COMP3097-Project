@@ -8,33 +8,27 @@
 import SwiftUI
 
 struct HomeView: View {
-    @State private var viewAllTasks = false
-    
     var body: some View {
         NavigationStack {
             ZStack {
                 Color("BackgroundColor")
                     .ignoresSafeArea()
 
-             
-
                 VStack {
                     Spacer()
                     Text("Schedule")
                         .font(.system(size: 24, weight: .bold))
                         .foregroundColor(.white)
-                    
+
                     Image("CalendarImage")
                         .resizable()
                         .frame(width: 310, height: 300)
                         .aspectRatio(contentMode: .fit)
                         .padding(.bottom, 100)
-                    
+
                     Spacer()
                     HStack {
-                        Button(action: {
-                            viewAllTasks = true
-                        }) {
+                        NavigationLink(destination: ViewAllTasksView()) {
                             Image(systemName: "eye")
                                 .foregroundColor(.white)
                                 .font(.system(size: 40))
@@ -45,8 +39,9 @@ struct HomeView: View {
                         }
                         .padding(.bottom, 30)
                         .padding(.leading, 20)
+
                         Spacer()
-                        Button(action: {}) {
+                        NavigationLink(destination: AddTasksView()){
                             Image(systemName: "plus")
                                 .foregroundColor(.white)
                                 .font(.system(size: 40))
@@ -59,7 +54,6 @@ struct HomeView: View {
                         .padding(.trailing, 20)
                     }
                 }
-            .navigationDestination(isPresented: $viewAllTasks) {ViewAllTasksView()}
             }
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
@@ -73,10 +67,5 @@ struct HomeView: View {
             .toolbarBackground(.visible, for: .navigationBar)
             .toolbarColorScheme(.dark, for: .navigationBar)
         }
-
     }
-}
-
-#Preview {
-    HomeView()
 }
