@@ -10,7 +10,8 @@ import SwiftUI
 
 struct ViewAllTasksView: View {
 
-    @State private var tasks = TaskData.exampleTasks
+    @StateObject var controller = TaskController()
+    @State private var title: String = ""
 
     var body: some View {
         ZStack {
@@ -34,10 +35,9 @@ struct ViewAllTasksView: View {
                     }
                 }
                 
-                ForEach(tasks) { task in
+                ForEach(controller.tasks) { task in
                     NavigationLink(destination: ViewTaskView(task: task)) {
                         TaskCardView(task: task)
-                            .foregroundColor(.black)
                     }
                 }
 
@@ -47,7 +47,7 @@ struct ViewAllTasksView: View {
                     Spacer()
                     VStack {
                         Spacer()
-                        NavigationLink(destination: AddTasksView()) {
+                        NavigationLink(destination: AddTasksView(controller: controller)) {
                             Image(systemName: "plus")
                                 .foregroundColor(.white)
                                 .font(.system(size: 40))
