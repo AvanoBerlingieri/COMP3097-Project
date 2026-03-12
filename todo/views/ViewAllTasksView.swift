@@ -36,7 +36,7 @@ struct ViewAllTasksView: View {
                 }
                 
                 ForEach(controller.tasks) { task in
-                    NavigationLink(destination: ViewTaskView(task: task)) {
+                    NavigationLink(destination: ViewTaskView(task: task, controller: controller)) {
                         TaskCardView(task: task)
                     }
                 }

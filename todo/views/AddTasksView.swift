@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+
 struct AddTasksView: View {
     @Environment(\.dismiss) private var dismiss
     @ObservedObject var controller: TaskController
@@ -53,11 +54,8 @@ struct AddTasksView: View {
                     Text("Due Date")
                         .foregroundColor(.white)
                         .bold()
-                    TextField("", text: $dueDate)
-                        .foregroundColor(.white)
-                        .padding()
-                        .background(Color.gray.opacity(0.2))
-                        .cornerRadius(10)
+                    DatePicker("Due Date", selection: $dueDate, displayedComponents: .date)
+                        .datePickerStyle(.compact)
                     
                     Button("Save Task") {
 
@@ -107,6 +105,6 @@ struct AddTasksView: View {
 
 #Preview {
     NavigationStack {
-        AddTasksView()
+        AddTasksView(controller: TaskController())
     }
 }

@@ -9,6 +9,9 @@ import SwiftUI
 
 struct ViewTaskView: View {
     let task: Task
+    @Environment(\.dismiss) private var dismiss
+    @ObservedObject var controller: TaskController
+
     
     var body: some View {
             ZStack {
@@ -56,7 +59,7 @@ struct ViewTaskView: View {
                             
                             
                             Spacer()
-                            Button(action: {}) {
+                            Button(action: {dismiss()}) {
                                 HStack(spacing: 12) {
                                     Text("Mark As Completed")
                                         .font(.title2)
@@ -92,7 +95,10 @@ struct ViewTaskView: View {
                             }
                             .padding(.bottom, 15)
                             .padding(.trailing, 10)
-                            Button(action: {}) {
+                            Button(action: {
+                                controller.deleteTask(task.id)
+                                dismiss()
+                            }) {
                                 HStack(spacing: 12) {
                                     Text("Delete Task")
                                         .font(.title2)
@@ -132,6 +138,4 @@ extension Task{
     static let preview = TaskData.exampleTasks[0]
 }
 
-#Preview {
-    ViewTaskView(task: .preview)
-}
+
