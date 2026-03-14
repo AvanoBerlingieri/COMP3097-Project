@@ -71,7 +71,10 @@ struct ViewTaskView: View {
                             Spacer()
                             
                             if !task.isCompleted {
-                                Button(action: {dismiss()}) {
+                                Button(action: {
+                                    task.isCompleted = true
+                                    dismiss()
+                                }) {
                                     HStack(spacing: 12) {
                                         Text("Mark As Completed")
                                             .font(.title2)
