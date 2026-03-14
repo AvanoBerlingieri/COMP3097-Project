@@ -6,11 +6,12 @@
 //
 
 import SwiftUI
+import SwiftData
 
 
 struct AddTasksView: View {
     @Environment(\.dismiss) private var dismiss
-    @ObservedObject var controller: TaskController
+    @Environment(\.modelContext) private var modelContext
 
     @State private var title: String = ""
     @State private var description: String = ""
@@ -63,15 +64,15 @@ struct AddTasksView: View {
                     
                     Button("Save Task") {
 
-                        let task = Task(
+                        let newTask = Task(
                         id: UUID(),
                         title: title,
-                        description: description,
+                        descriptions: description,
                         taskType: taskType,
                         dueDate: dueDate,
                         isCompleted: false)
 
-                        controller.addTask(task)
+                        modelContext.insert(newTask)
                         
                         HStack {
                             Spacer()
@@ -106,6 +107,6 @@ struct AddTasksView: View {
 
 #Preview {
     NavigationStack {
-        AddTasksView(controller: TaskController())
+        AddTasksView()
     }
 }

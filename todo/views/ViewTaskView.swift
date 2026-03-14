@@ -6,12 +6,12 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct ViewTaskView: View {
     let task: Task
     @Environment(\.dismiss) private var dismiss
-    @ObservedObject var controller: TaskController
-
+    @Environment(\.modelContext) private var modelContext
     
     var body: some View {
             ZStack {
@@ -29,7 +29,7 @@ struct ViewTaskView: View {
                                         .font(.title2)
                                         .bold()
                                         .foregroundColor(.white)
-                                    Text(task.description)
+                                    Text(task.descriptions)
                                         .font(.headline)
                                         .bold()
                                         .foregroundColor(.white)
@@ -69,47 +69,24 @@ struct ViewTaskView: View {
                             
                             
                             Spacer()
-                            if !task.isCompleted {
-                                Button(action: {dismiss()}) {
-                                    HStack(spacing: 12) {
-                                        Text("Mark As Completed")
-                                            .font(.title2)
-                                            .padding(.leading, 130)
-                                        Spacer()
-                                        Image(systemName: "checkmark")
-                                            .font(.system(size: 28))
-                                            .padding(.trailing, 10)
-                                    }
-                                    .foregroundColor(.white)
-                                    .frame(maxWidth: .infinity, minHeight: 70)
-                                    .background(Color("ButtonColor"))
-                                    .cornerRadius(16)
-                                    .shadow(radius: 5)
-                                }.padding(.bottom, 15)
-                                    .padding(.trailing, 10)
-                                
-                                
-                                Button(action: {}) {
-                                    HStack(spacing: 12) {
-                                        Text("Edit Task")
-                                            .font(.title2)
-                                            .padding(.leading, 130)
-                                        Spacer()
-                                        Image(systemName: "pencil")
-                                            .font(.system(size: 28))
-                                            .padding(.trailing, 10)
-                                    }
-                                    .foregroundColor(.white)
-                                    .frame(maxWidth: .infinity, minHeight: 70)
-                                    .background(Color("ButtonColor"))
-                                    .cornerRadius(16)
-                                    .shadow(radius: 5)
+                            Button(action: {
+                                task.isCompleted = true
+                                dismiss()
+                            }) {
+                                HStack(spacing: 12) {
+                                    Text("Mark as Completed")
+                                        .font(.title2)
+                                        .padding(.leading, 130)
+                                    Spacer()
+                                    Image(systemName: "checkmark")
+                                        .font(.system(size: 28))
+                                        .padding(.trailing, 10)
                                 }
                                 .padding(.bottom, 15)
                                 .padding(.trailing, 10)
                             }
                             Button(action: {
-                                controller.deleteTask(task.id)
+                                modelContext.delete(task)
                                 dismiss()
                             }) {
                                 HStack(spacing: 12) {
@@ -145,14 +122,4 @@ struct ViewTaskView: View {
             .toolbarBackground(.visible, for: .navigationBar)
             .toolbarColorScheme(.dark, for: .navigationBar)
         }
-}
-
-extension Task{
-    static let preview = TaskData.exampleTasks[0]
-}
-
-#Preview {
-    NavigationStack {
-        ViewTaskView(task: Task.preview, controller: TaskController())
-    }
 }
