@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct HomeView: View {
-    @ObservedObject var controller: TaskController
     
     var body: some View {
         NavigationStack {
@@ -43,7 +42,7 @@ struct HomeView: View {
                         .padding(.leading, 20)
 
                         Spacer()
-                        NavigationLink(destination: AddTasksView(controller: controller)){
+                        NavigationLink(destination: AddTasksView()){
                             Image(systemName: "plus")
                                 .foregroundColor(.white)
                                 .font(.system(size: 40))

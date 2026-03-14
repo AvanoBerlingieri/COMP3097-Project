@@ -6,12 +6,13 @@
 //
 
 import SwiftUI
+import SwiftData
 
 @main
 struct todoApp: App {
     var body: some Scene {
         WindowGroup {
-            HomeView(controller: TaskController())
-        }
+            HomeView()
+        }.modelContainer(for: Task.self)
     }
 }

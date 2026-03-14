@@ -6,12 +6,12 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct ViewTaskView: View {
     let task: Task
     @Environment(\.dismiss) private var dismiss
-    @ObservedObject var controller: TaskController
-
+    @Environment(\.modelContext) private var modelContext
     
     var body: some View {
             ZStack {
@@ -29,7 +29,7 @@ struct ViewTaskView: View {
                                         .font(.title2)
                                         .bold()
                                         .foregroundColor(.white)
-                                    Text(task.description)
+                                    Text(task.descriptions)
                                         .font(.headline)
                                         .bold()
                                         .foregroundColor(.white)
@@ -59,9 +59,12 @@ struct ViewTaskView: View {
                             
                             
                             Spacer()
-                            Button(action: {dismiss()}) {
+                            Button(action: {
+                                task.isCompleted = true
+                                dismiss()
+                            }) {
                                 HStack(spacing: 12) {
-                                    Text("Mark As Completed")
+                                    Text("Mark as Completed")
                                         .font(.title2)
                                         .padding(.leading, 130)
                                     Spacer()
@@ -96,7 +99,7 @@ struct ViewTaskView: View {
                             .padding(.bottom, 15)
                             .padding(.trailing, 10)
                             Button(action: {
-                                controller.deleteTask(task.id)
+                                modelContext.delete(task)
                                 dismiss()
                             }) {
                                 HStack(spacing: 12) {
@@ -133,9 +136,3 @@ struct ViewTaskView: View {
             .toolbarColorScheme(.dark, for: .navigationBar)
         }
 }
-
-extension Task{
-    static let preview = TaskData.exampleTasks[0]
-}
-
-

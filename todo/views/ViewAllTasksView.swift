@@ -6,11 +6,13 @@
 //
 
 import SwiftUI
+import SwiftData
 
 
 struct ViewAllTasksView: View {
 
-    @StateObject var controller = TaskController()
+    @Environment(\.modelContext) private var modelContext
+    @Query(sort: \Task.title, order: .forward) var tasks: [Task]
     @State private var title: String = ""
 
     var body: some View {
@@ -35,8 +37,8 @@ struct ViewAllTasksView: View {
                     }
                 }
                 
-                ForEach(controller.tasks) { task in
-                    NavigationLink(destination: ViewTaskView(task: task, controller: controller)) {
+                ForEach(tasks) { task in
+                    NavigationLink(destination: ViewTaskView(task: task)) {
                         TaskCardView(task: task)
                     }
                 }
@@ -47,7 +49,7 @@ struct ViewAllTasksView: View {
                     Spacer()
                     VStack {
                         Spacer()
-                        NavigationLink(destination: AddTasksView(controller: controller)) {
+                        NavigationLink(destination: AddTasksView()) {
                             Image(systemName: "plus")
                                 .foregroundColor(.white)
                                 .font(.system(size: 40))
