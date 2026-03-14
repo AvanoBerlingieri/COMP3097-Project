@@ -16,18 +16,28 @@ struct TaskCardView:View {
             HStack{
                 Text(task.title)
                     .font(.headline)
+                    .foregroundColor(.black)
                     .bold()
                 
                 Spacer()
                 
                 Text(task.taskType)
                     .font(.subheadline)
+                    .foregroundColor(.black)
+
                     
             }
             
             HStack{
                 Text(task.dueDate, style: .date)
                     .font(.caption)
+                    .foregroundColor(.black)
+                
+                Spacer()
+                
+                Text(task.isCompleted ? "Completed" : "Pending")
+                    .font(.caption)
+                    .foregroundColor(.black)
                 
             }
         }

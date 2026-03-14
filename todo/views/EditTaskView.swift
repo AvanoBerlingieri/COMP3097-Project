@@ -92,5 +92,7 @@ struct EditTaskView: View {
 }
 
 #Preview {
-    EditTaskView()
+    NavigationStack{
+        EditTaskView()
+    }
 }

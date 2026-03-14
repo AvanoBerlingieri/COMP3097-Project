@@ -55,46 +55,59 @@ struct ViewTaskView: View {
                                         .bold()
                                         .foregroundColor(.white)
                                 }.padding(.bottom, 20)
+                                HStack{
+                                    Text("Task Completed: ")
+                                        .font(.title2)
+                                        .bold()
+                                        .foregroundColor(.white)
+                                    Text(task.isCompleted.description)
+                                        .font(.headline)
+                                        .bold()
+                                        .foregroundColor(.white)
+                                }.padding(.bottom, 20)
                             }
                             
                             
                             Spacer()
-                            Button(action: {dismiss()}) {
-                                HStack(spacing: 12) {
-                                    Text("Mark As Completed")
-                                        .font(.title2)
-                                        .padding(.leading, 130)
-                                    Spacer()
-                                    Image(systemName: "checkmark")
-                                        .font(.system(size: 28))
-                                        .padding(.trailing, 10)
+                            if !task.isCompleted {
+                                Button(action: {dismiss()}) {
+                                    HStack(spacing: 12) {
+                                        Text("Mark As Completed")
+                                            .font(.title2)
+                                            .padding(.leading, 130)
+                                        Spacer()
+                                        Image(systemName: "checkmark")
+                                            .font(.system(size: 28))
+                                            .padding(.trailing, 10)
+                                    }
+                                    .foregroundColor(.white)
+                                    .frame(maxWidth: .infinity, minHeight: 70)
+                                    .background(Color("ButtonColor"))
+                                    .cornerRadius(16)
+                                    .shadow(radius: 5)
+                                }.padding(.bottom, 15)
+                                    .padding(.trailing, 10)
+                                
+                                
+                                Button(action: {}) {
+                                    HStack(spacing: 12) {
+                                        Text("Edit Task")
+                                            .font(.title2)
+                                            .padding(.leading, 130)
+                                        Spacer()
+                                        Image(systemName: "pencil")
+                                            .font(.system(size: 28))
+                                            .padding(.trailing, 10)
+                                    }
+                                    .foregroundColor(.white)
+                                    .frame(maxWidth: .infinity, minHeight: 70)
+                                    .background(Color("ButtonColor"))
+                                    .cornerRadius(16)
+                                    .shadow(radius: 5)
                                 }
-                                .foregroundColor(.white)
-                                .frame(maxWidth: .infinity, minHeight: 70)
-                                .background(Color("ButtonColor"))
-                                .cornerRadius(16)
-                                .shadow(radius: 5)
+                                .padding(.bottom, 15)
+                                .padding(.trailing, 10)
                             }
-                            .padding(.bottom, 15)
-                            .padding(.trailing, 10)
-                            Button(action: {}) {
-                                HStack(spacing: 12) {
-                                    Text("Edit Task")
-                                        .font(.title2)
-                                        .padding(.leading, 130)
-                                    Spacer()
-                                    Image(systemName: "pencil")
-                                        .font(.system(size: 28))
-                                        .padding(.trailing, 10)
-                                }
-                                .foregroundColor(.white)
-                                .frame(maxWidth: .infinity, minHeight: 70)
-                                .background(Color("ButtonColor"))
-                                .cornerRadius(16)
-                                .shadow(radius: 5)
-                            }
-                            .padding(.bottom, 15)
-                            .padding(.trailing, 10)
                             Button(action: {
                                 controller.deleteTask(task.id)
                                 dismiss()
@@ -138,4 +151,8 @@ extension Task{
     static let preview = TaskData.exampleTasks[0]
 }
 
-
+#Preview {
+    NavigationStack {
+        ViewTaskView(task: Task.preview, controller: TaskController())
+    }
+}

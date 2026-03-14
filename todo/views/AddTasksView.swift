@@ -50,12 +50,16 @@ struct AddTasksView: View {
                         .padding()
                         .background(Color.gray.opacity(0.2))
                         .cornerRadius(10)
-                    
                     Text("Due Date")
                         .foregroundColor(.white)
-                        .bold()
-                    DatePicker("Due Date", selection: $dueDate, displayedComponents: .date)
-                        .datePickerStyle(.compact)
+                    DatePicker("", selection: $dueDate, displayedComponents: .date)
+                        .datePickerStyle(.graphical)
+                        .labelsHidden()
+                        .background(
+                            RoundedRectangle(cornerRadius: 12)
+                                .fill(Color.white)
+                        ).padding(.horizontal)
+                        
                     
                     Button("Save Task") {
 
@@ -76,13 +80,10 @@ struct AddTasksView: View {
                                 .bold()
                             Spacer()                        
                         }
-                        .padding()
-                        .background(Color("ButtonColor"))
-                        .cornerRadius(10)
-
                         dismiss()
                     }
-                    .padding(.top, 20)
+                    .padding(20)
+                    .frame(maxWidth: .infinity)
                     
                     Spacer()
                 }

@@ -10,6 +10,7 @@ import SwiftUI
 
 struct ViewAllTasksView: View {
 
+    @Environment(\.dismiss) private var dismiss
     @StateObject var controller = TaskController()
     @State private var title: String = ""
 
