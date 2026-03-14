@@ -11,7 +11,7 @@ struct ContentView: View {
     var body: some View {
         TaskCardView(task: Task(id: UUID(),
                                 title: "Sample Text",
-                                description: "Sample Text",
+                                descriptions: "Sample Text",
                                 taskType: "Sample",
                                 dueDate: Date(),
                                 isCompleted: false))

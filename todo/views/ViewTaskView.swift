@@ -69,18 +69,40 @@ struct ViewTaskView: View {
                             
                             
                             Spacer()
-                            Button(action: {
-                                task.isCompleted = true
-                                dismiss()
-                            }) {
-                                HStack(spacing: 12) {
-                                    Text("Mark as Completed")
-                                        .font(.title2)
-                                        .padding(.leading, 130)
-                                    Spacer()
-                                    Image(systemName: "checkmark")
-                                        .font(.system(size: 28))
-                                        .padding(.trailing, 10)
+                            
+                            if !task.isCompleted {
+                                Button(action: {dismiss()}) {
+                                    HStack(spacing: 12) {
+                                        Text("Mark As Completed")
+                                            .font(.title2)
+                                            .padding(.leading, 130)
+                                        Spacer()
+                                        Image(systemName: "checkmark")
+                                            .font(.system(size: 28))
+                                            .padding(.trailing, 10)
+                                    }
+                                    .foregroundColor(.white)
+                                    .frame(maxWidth: .infinity, minHeight: 70)
+                                    .background(Color("ButtonColor"))
+                                    .cornerRadius(16)
+                                    .shadow(radius: 5)
+                                }.padding(.bottom, 15)
+                                .padding(.trailing, 10)
+                                Button(action: {}) {
+                                    HStack(spacing: 12) {
+                                        Text("Edit Task")
+                                            .font(.title2)
+                                            .padding(.leading, 130)
+                                        Spacer()
+                                        Image(systemName: "pencil")
+                                            .font(.system(size: 28))
+                                            .padding(.trailing, 10)
+                                    }
+                                    .foregroundColor(.white)
+                                    .frame(maxWidth: .infinity, minHeight: 70)
+                                    .background(Color("ButtonColor"))
+                                    .cornerRadius(16)
+                                    .shadow(radius: 5)
                                 }
                                 .padding(.bottom, 15)
                                 .padding(.trailing, 10)
