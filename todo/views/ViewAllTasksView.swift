@@ -8,12 +8,22 @@
 import SwiftUI
 import SwiftData
 
-
 struct ViewAllTasksView: View {
-
     @Environment(\.modelContext) private var modelContext
     @Query(sort: \Task.title, order: .forward) var tasks: [Task]
-    @State private var title: String = ""
+    
+    @State private var searchText: String = ""
+
+    var filteredTasks: [Task] {
+        if searchText.isEmpty {
+            return tasks
+        } else {
+            return tasks.filter { task in
+                task.title.localizedCaseInsensitiveContains(searchText) ||
+                task.descriptions.localizedCaseInsensitiveContains(searchText)
+            }
+        }
+    }
 
     var body: some View {
         ZStack {
@@ -21,58 +31,48 @@ struct ViewAllTasksView: View {
                 .ignoresSafeArea()
 
             VStack {
-                Spacer()
-                
                 HStack {
                     ZStack(alignment: .trailing) {
-                        TextField("Search", text: $title)
+                        TextField("Search tasks...", text: $searchText)
                             .foregroundColor(.white)
                             .padding()
                             .background(Color.gray.opacity(0.2))
                             .cornerRadius(10)
+                            .autocorrectionDisabled()
                         
                         Image(systemName: "magnifyingglass")
                             .foregroundColor(.white.opacity(0.7))
                             .padding(.trailing, 10)
                     }
                 }
+                .padding()
                 
-                ForEach(tasks) { task in
-                    NavigationLink(destination: ViewTaskView(task: task)) {
-                        TaskCardView(task: task)
+                ScrollView {
+                    VStack(spacing: 15) {
+                        ForEach(filteredTasks) { task in
+                            NavigationLink(destination: ViewTaskView(task: task)) {
+                                TaskCardView(task: task)
+                            }
+                        }
                     }
+                    .padding(.horizontal)
                 }
 
                 Spacer()
 
                 HStack {
                     Spacer()
-                    VStack {
-                        Spacer()
-                        NavigationLink(destination: AddTasksView()) {
-                            Image(systemName: "plus")
-                                .foregroundColor(.white)
-                                .font(.system(size: 40))
-                                .padding()
-                                .background(Color("ButtonColor"))
-                                .clipShape(Circle())
-                                .shadow(radius: 5)
-                        }
-                        .padding(.bottom, 15)
-                        .padding(.trailing, 20)
-
-                        NavigationLink(destination: EditTaskView()) {
-                            Image(systemName: "checkmark")
-                                .foregroundColor(.white)
-                                .font(.system(size: 40))
-                                .padding()
-                                .background(Color("ButtonColor"))
-                                .clipShape(Circle())
-                                .shadow(radius: 5)
-                        }
-                        .padding(.bottom, 30)
-                        .padding(.trailing, 20)
+                    NavigationLink(destination: AddTasksView()) {
+                        Image(systemName: "plus")
+                            .foregroundColor(.white)
+                            .font(.system(size: 30, weight: .bold))
+                            .padding()
+                            .background(Color("ButtonColor"))
+                            .clipShape(Circle())
+                            .shadow(radius: 5)
                     }
+                    .padding(.trailing, 20)
+                    .padding(.bottom, 20)
                 }
             }
         }
@@ -88,8 +88,4 @@ struct ViewAllTasksView: View {
         .toolbarBackground(.visible, for: .navigationBar)
         .toolbarColorScheme(.dark, for: .navigationBar)
     }
-}
-
-#Preview {
-    ViewAllTasksView()
 }
