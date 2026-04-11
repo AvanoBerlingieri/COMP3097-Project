@@ -1,19 +1,16 @@
-//
-//  EditTaskView.swift
-//  todo
-//
-//  Created by Nima Abady on 2026-02-08.
-//
-
 import SwiftUI
+import SwiftData
 
 struct EditTaskView: View {
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.modelContext) private var modelContext
+    
+    let task: Task
     
     @State private var title: String = ""
     @State private var description: String = ""
     @State private var taskType: String = ""
-    @State private var dueDate: String = ""
+    @State private var dueDate: Date = Date()
     
     var body: some View {
         ZStack {
@@ -21,47 +18,57 @@ struct EditTaskView: View {
                 .ignoresSafeArea()
             
             ScrollView {
-                VStack(alignment: .leading, spacing: 20) {
+                VStack(alignment: .leading, spacing: 15) {
+                    
                     Text("Title")
                         .foregroundColor(.white)
                         .bold()
-                    TextField("", text: $title)
-                        .foregroundColor(.white)
+                    
+                    TextField("Title", text: $title)
                         .padding()
+                        .foregroundColor(.white)
                         .background(Color.gray.opacity(0.2))
                         .cornerRadius(10)
+                        .padding(.bottom, 5) 
                     
                     Text("Description")
                         .foregroundColor(.white)
                         .bold()
-                    TextField("", text: $description)
-                        .foregroundColor(.white)
+                    
+                    TextField("Description", text: $description)
                         .padding()
+                        .foregroundColor(.white)
                         .background(Color.gray.opacity(0.2))
                         .cornerRadius(10)
+                        .padding(.bottom, 5)
                     
                     Text("Task Type")
                         .foregroundColor(.white)
                         .bold()
-                    TextField("", text: $taskType)
-                        .foregroundColor(.white)
+                    
+                    TextField("Task Type", text: $taskType)
                         .padding()
+                        .foregroundColor(.white)
                         .background(Color.gray.opacity(0.2))
                         .cornerRadius(10)
+                        .padding(.bottom, 5)
                     
                     Text("Due Date")
                         .foregroundColor(.white)
                         .bold()
-                    TextField("", text: $dueDate)
-                        .foregroundColor(.white)
-                        .padding()
-                        .background(Color.gray.opacity(0.2))
-                        .cornerRadius(10)
                     
-                    Button(action: {dismiss()}) {
+                    DatePicker("", selection: $dueDate, displayedComponents: .date)
+                        .labelsHidden()
+                        .datePickerStyle(.graphical)
+                        .background(Color.white.opacity(0.1))
+                        .cornerRadius(10)
+                        .colorInvert()
+                        .colorMultiply(.white)
+                    
+                    Button(action: saveTask) {
                         HStack {
                             Spacer()
-                            Text("Edit Task")
+                            Text("Save Changes")
                                 .foregroundColor(.white)
                                 .bold()
                             Spacer()
@@ -71,28 +78,25 @@ struct EditTaskView: View {
                         .cornerRadius(10)
                     }
                     .padding(.top, 20)
-                    
-                    Spacer()
                 }
                 .padding()
             }
         }
-        .navigationBarTitle("Edit Task", displayMode: .inline)
-        .toolbar{
-            ToolbarItem(placement: .principal) {
-                Text("Edit Task")
-                    .font(.system(size: 24, weight: .bold))
-                    .foregroundColor(.white)
-            }
+        .onAppear {
+            self.title = task.title
+            self.description = task.descriptions
+            self.taskType = task.taskType
+            self.dueDate = task.dueDate
         }
-        .toolbarBackground(Color.gray, for: .navigationBar)
-        .toolbarBackground(.visible, for: .navigationBar)
-        .toolbarColorScheme(.dark, for: .navigationBar)
+        .navigationBarTitle("Edit Task", displayMode: .inline)
     }
-}
-
-#Preview {
-    NavigationStack{
-        EditTaskView()
+    
+    private func saveTask() {
+        task.title = title
+        task.descriptions = description
+        task.taskType = taskType
+        task.dueDate = dueDate
+        
+        dismiss()
     }
 }

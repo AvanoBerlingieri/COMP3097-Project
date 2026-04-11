@@ -53,37 +53,41 @@ struct AddTasksView: View {
                         .cornerRadius(10)
                     Text("Due Date")
                         .foregroundColor(.white)
-                    DatePicker("", selection: $dueDate, displayedComponents: .date)
-                        .datePickerStyle(.graphical)
-                        .labelsHidden()
-                        .background(
-                            RoundedRectangle(cornerRadius: 12)
-                                .fill(Color.white)
-                        ).padding(.horizontal)
-                        
+                        .bold()
                     
-                    Button("Save Task") {
-
+                    DatePicker("", selection: $dueDate, displayedComponents: .date)
+                        .labelsHidden()
+                        .datePickerStyle(.graphical)
+                        .background(Color.white.opacity(0.1))
+                        .cornerRadius(10)
+                        .colorInvert()
+                        .colorMultiply(.white)
+                    
+                    Button(action: {
                         let newTask = Task(
-                        id: UUID(),
-                        title: title,
-                        descriptions: description,
-                        taskType: taskType,
-                        dueDate: dueDate,
-                        isCompleted: false)
-
-                        modelContext.insert(newTask)
+                            id: UUID(),
+                            title: title,
+                            descriptions: description,
+                            taskType: taskType,
+                            dueDate: dueDate,
+                            isCompleted: false
+                        )
                         
+                        modelContext.insert(newTask)
+                        dismiss()
+                    }) {
                         HStack {
                             Spacer()
                             Text("Save Task")
                                 .foregroundColor(.white)
                                 .bold()
-                            Spacer()                        
+                            Spacer()
                         }
-                        dismiss()
+                        .padding()
+                        .background(Color("ButtonColor"))
+                        .cornerRadius(10)
                     }
-                    .padding(20)
+                    .padding(.top, 20)
                     .frame(maxWidth: .infinity)
                     
                     Spacer()
